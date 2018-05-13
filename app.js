@@ -20,17 +20,16 @@ GAME RULES:
 // variable declarations;
 var scores = [0, 0];
 var roundScore = 0;
-var activePlayer = 1;
+var activePlayer = 0;
 
-// calculate random number;
-var dice = Math.floor(Math.random() * 6) + 1;
-// console.log(dice);
+// calculate random dice number;
+// var dice = Math.floor(Math.random() * 6) + 1;
 
 // DOM Manipulation;
 // .textContent = changes text on the html but .textContent is faster because no need to parse; similar to innerHTML;
 // document.querySelector('#current-' + activePlayer).innerHTML = '<em>' + dice + '</em>';
 // this is called setter because this sets the value;
-document.querySelector('#current-' + activePlayer).textContent = dice;
+// document.querySelector('#current-' + activePlayer).textContent = dice;
 
 // storing into var x;
 // this is called a 'getter' because it gets a value;
@@ -40,4 +39,55 @@ document.querySelector('#current-' + activePlayer).textContent = dice;
 
 
 // hide the dice when you first open up the game;
+// .style.CSS_property = 'css prop';
+
 document.querySelector('.dice').style.display = 'none';
+
+// Setting all scores to 0 initalize;
+
+document.getElementById('score-0').textContent = '0';
+document.getElementById('score-1').textContent = '0';
+document.getElementById('current-0').textContent = '0';
+document.getElementById('current-1').textContent = '0';
+
+
+// Event Handlers;
+// event handlers are only run after the execution stacks are empty, when all the functions have returned;
+
+
+document.querySelector('.btn-roll').addEventListener('click', function() {
+  // 1. need random number;
+  var dice = Math.floor(Math.random() * 6) + 1;
+//   console.log(dice);
+  // 2. display result;
+  var diceDOM = document.querySelector('.dice');
+  diceDOM.style.display = 'block';
+  // changing dice img based on what you roll; // use SRC;
+  diceDOM.src = 'dice-' + dice + '.png';
+  // 3. update roundScore;
+  // 4. when dice rolls 1, change to next player, set roundScore to 0;
+  if (dice > 1) {
+    roundScore += dice;
+    document.getElementById('current-' + activePlayer).textContent = roundScore;
+  } else {
+    // changing to next player when dice rolls 1, changing round score to 0;
+    activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+    roundScore = 0;
+    // set the current scores to 0 when dice rolls 1;
+    document.getElementById('current-0').textContent = '0';
+    document.getElementById('current-1').textContent = '0';
+    
+    // changing the red dot to another player from html&css;
+    // removing 'active' from class player panel;
+    //document.querySelector('.player-0-panel').classList.remove('active');
+    //document.querySelector('.player-1-panel').classList.add('active');
+    document.querySelector('.player-0-panel').classList.toggle('active');
+    document.querySelector('.player-1-panel').classList.toggle('active');
+  }  
+})
+
+
+
+
+
+
