@@ -24,7 +24,19 @@ var activePlayer = 0;
 
 // calculate random dice number;
 // var dice = Math.floor(Math.random() * 6) + 1;
+var initialize = function() {
+    scores = [0, 0];
+    roundScore = 0;
+    activePlayer = 0;
+    document.getElementById('score-0').textContent = '0';
+    document.getElementById('score-1').textContent = '0';
+    document.getElementById('current-0').textContent = '0';
+    document.getElementById('current-1').textContent = '0';
+    document.querySelector('.dice').style.display = 'none';
+    document.querySelector('.player-0-panel').classList.add('active');
+    document.querySelector('.player-1-panel').classList.remove('active');
 
+}
 // DOM Manipulation;
 // .textContent = changes text on the html but .textContent is faster because no need to parse; similar to innerHTML;
 // document.querySelector('#current-' + activePlayer).innerHTML = '<em>' + dice + '</em>';
@@ -79,6 +91,7 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
     
     // changing the red dot to another player from html&css;
     // removing 'active' from class player panel;
+    // USE TOGGLE;
     //document.querySelector('.player-0-panel').classList.remove('active');
     //document.querySelector('.player-1-panel').classList.add('active');
     document.querySelector('.player-0-panel').classList.toggle('active');
@@ -87,7 +100,39 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
 })
 
 
+// Updating player scores;
 
+document.querySelector('.btn-hold').addEventListener('click', function() {
+  //console.log('click works!');
+  // 1. when clicked, store the round score to player-scores;
+  //console.log(document.querySelector('#current-' + activePlayer).textContent);
+  scores[activePlayer] += Number(document.getElementById('current-' + activePlayer).textContent);
+  // 2. set the score to player-scores;
+  document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
+  roundScore = 0;
+  document.getElementById('current-0').textContent = '0';
+  document.getElementById('current-1').textContent = '0';
+
+  if (scores[activePlayer] >= 100) {
+    document.querySelector('#name-' + activePlayer).textContent = 'You win!';
+  }
+
+  activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+  document.querySelector('.player-0-panel').classList.toggle('active');
+  document.querySelector('.player-1-panel').classList.toggle('active');
+//   console.log(scores);
+
+})
+
+
+
+
+// new game button;
+
+document.querySelector('.btn-new').addEventListener('click', function() {
+  initialize();
+    // console.log(scores, roundScore, activePlayer);
+})
 
 
 
